@@ -8,6 +8,7 @@ urlpatterns = [
     # naming routes is optional, but best practices
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
-    # paths for cats
-    path('finchcollectore/', views.finchcollectors_index, name='index'),
+    # paths for finchs
+    path('finchs/', views.finchs_index, name='index'),
+    path('finchs/<int:finch_id>/', views.finchs_detail, name='detail'),
 ]
