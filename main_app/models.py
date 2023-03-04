@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
 
 # A tuple of 2-tuples
 MEALS = (
@@ -40,3 +41,7 @@ class Feeding(models.Model):
         # this method is coming from django
         # produced like this: get_<name_of_field>_display()
         return f"{self.get_meal_display()} on {self.date}"
+    
+    #  # change the default sort
+    # class Meta:
+    #     ordering = ['-date']
