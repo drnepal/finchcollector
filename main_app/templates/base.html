@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finch Collector</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -18,10 +19,8 @@
                 </ul>
                 <ul class="right">
                     <li><a href="{% url 'about' %}">About</a></li>
-            
                     <li><a href="{% url 'finchs_create' %}">Add a Finch</a></li>
-                    <li><a href="{% url 'index' %}">View All My Finches</a></li>
-                    
+                    <li><a href="{% url 'index' %}">View All My Finchs</a></li>
                 </ul>
             </div>
         </nav>
