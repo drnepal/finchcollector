@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Finch
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from .models import Finch, Toy
 from .forms import FeedingForm
 
 # temporary finchs for building templates
@@ -32,7 +35,11 @@ def finchs_index(request):
 # finch_id is defined, expecting an integer, in our url
 def finchs_detail(request, finch_id):
     finch = Finch.objects.get(id=finch_id)
-
+    
+ # first we'll get a list of ids of toys the finch owns
+    id_list = finch.toys.all().values_list('id')
+    # then we'll make a list of the toys the finch does not have
+    toys_finch_doesnt_have = Toy.objects.exclude(id__in=id_list)
     # instantiate FeedingForm to be rendered in the template
     feeding_form = FeedingForm()
     return render(request, 'finchs/detail.html', { 'finch': finch, 'feeding_form': feeding_form })
@@ -69,3 +76,44 @@ def add_feeding(request, finch_id):
         new_feeding.finch_id = finch_id
         new_feeding.save()
     return redirect('detail', finch_id=finch_id)
+
+
+def assoc_toy(request, finch_id, toy_id):
+    Finch.objects.get(id=finch_id).toys.add(toy_id)
+    return redirect('detail', finch_id=finch_id)
+
+def unassoc_toy(request, finch_id, toy_id):
+    Finch.objects.get(id=finch_id).toys.remove(toy_id)
+    return redirect('detail', finch_id=finch_id)
+
+# ToyList
+class ToyList(ListView):
+    model = Toy
+    template_name = 'toys/index.html'
+
+# ToyDetail
+class ToyDetail(DetailView):
+    model = Toy
+    template_name = 'toys/detail.html'
+
+# ToyCreate
+class ToyCreate(CreateView):
+    model = Toy
+    fields = ['name', 'color']
+
+    # define what the inherited method is_valid does(we'll update this later)
+    def form_valid(self, form):
+        # we'll use this later, but implement right now
+        # we'll need this when we add auth
+        # super allows for the original inherited CreateView function to work as it was intended
+        return super().form_valid(form)
+
+# ToyUpdate
+class ToyUpdate(UpdateView):
+    model = Toy
+    fields = ['name', 'color']
+
+# ToyDelete
+class ToyDelete(DeleteView):
+    model = Toy
+    success_url = '/toys/'

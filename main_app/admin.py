@@ -1,7 +1,10 @@
 from django.contrib import admin
-# add Feeding to the import
-from .models import Finch, Feeding
+# import your models here
+from .models import Finch, Feeding, Toy
 
+# Register your models here.
 admin.site.register(Finch)
-# register the new Feeding Model 
+# register our new feeding model
 admin.site.register(Feeding)
+
+admin.site.register(Toy)
